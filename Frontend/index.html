@@ -1,41 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="stylesheet.css">
-  <title>DB Project 1 new</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="stylesheet.css">
+    <title>DB Project 1</title>
 </head>
 <body>
-  <main>
-      <label>Name:</label>
-      <input type="text" id="name-input">
-      <button id="add-name-btn">Add Name</button>
- 
-     <br><br><br>
-     <div> 
-        <input placeholder="search by name" id="search-input">
-        <button id="search-btn">Search</button>
-     </div>
+    <main>
+        <h1>User Registration</h1>
+        <label>Username:</label>
+        <input type="text" id="username-input">
+        <label>Password:</label>
+        <input type="password" id="password-input">
+        <label>First Name:</label>
+        <input type="text" id="firstname-input">
+        <label>Last Name:</label>
+        <input type="text" id="lastname-input">
+        <label>Salary:</label>
+        <input type="number" id="salary-input">
+        <label>Age:</label>
+        <input type="number" id="age-input">
+        <button id="register-btn">Register</button>
 
-
-     <table id="table">
-         <thead>
-             <th>Id</th>
-             <th>Name</th>
-             <th>Date Added</th>
-             <th>Delete</th>
-             <th>Edit</th>  
-         </thead>
-         <tbody></tbody>
-     </table>
-
-     <section hidden id="update-row">
-         <label>Name:</label>
-         <input type="text" id="update-name-input">
-         <button id="update-row-btn" value="">Update</button>
-    </section>
-</main>
-<script src="index.js"></script>
+        <div id="message"></div>
+    </main>
+    <script src="index.js"></script>
 </body>
 </html>

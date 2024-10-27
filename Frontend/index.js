@@ -64,229 +64,66 @@ Arrow functions have a few notable features:
 
 
 // fetch call is to call the backend
+// This is the frontEnd for user registration functionality
+// event-based programming, utilizing DOM events
+
+// fetch call to check initial state or for any setup
 document.addEventListener('DOMContentLoaded', function() {
-    // one can point your browser to http://localhost:5050/getAll to check what it returns first.
     fetch('http://localhost:5050/getAll')     
     .then(response => response.json())
     .then(data => loadHTMLTable(data['data']));
 });
 
 
-// when the addBtn is clicked
-const addBtn = document.querySelector('#add-name-btn');
-addBtn.onclick = function (){
-    const nameInput = document.querySelector('#name-input');
-    const name = nameInput.value;
-    nameInput.value = "";
+const registerBtn = document.querySelector('#register-btn');
+registerBtn.onclick = function() {
+    const username = document.querySelector('#username-input').value;
+    const password = document.querySelector('#password-input').value;
+    const firstname = document.querySelector('#firstname-input').value;
+    const lastname = document.querySelector('#lastname-input').value;
+    const salary = document.querySelector('#salary-input').value;
+    const age = document.querySelector('#age-input').value;
 
-    fetch('http://localhost:5050/insert', {
-        headers: {
-            'Content-type': 'application/json'
-        },
+    if (!username || !password || !firstname || !lastname || !salary || !age) {
+        document.getElementById('message').innerText = "Error! Please fill in all fields.";
+        return; 
+    }
+
+    fetch('http://localhost:5050/register', {
         method: 'POST',
-        body: JSON.stringify({name: name})
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ username, password, firstname, lastname, salary, age })
     })
-    .then(response => response.json())
-    .then(data => insertRowIntoTable(data['data']));
-}
-
-// when the searchBtn is clicked
-const searchBtn =  document.querySelector('#search-btn');
-searchBtn.onclick = function (){
-    const searchInput = document.querySelector('#search-input');
-    const searchValue = searchInput.value;
-    searchInput.value = "";
-
-    fetch('http://localhost:5050/search/' + searchValue)
-    .then(response => response.json())
-    .then(data => loadHTMLTable(data['data']));
-}
-
-let rowToDelete; 
-
-// when the delete button is clicked, since it is not part of the DOM tree, we need to do it differently
-document.querySelector('table tbody').addEventListener('click', 
-      function(event){
-        if(event.target.className === "delete-row-btn"){
-
-            deleteRowById(event.target.dataset.id);   
-            rowToDelete = event.target.parentNode.parentNode.rowIndex;    
-            debug("delete which one:");
-            debug(rowToDelete);
-        }   
-        if(event.target.className === "edit-row-btn"){
-            showEditRowInterface(event.target.dataset.id); // display the edit row interface
-        }
-      }
-);
-
-function deleteRowById(id){
-    // debug(id);
-    fetch('http://localhost:5050/delete/' + id,
-       { 
-        method: 'DELETE'
-       }
-    )
-    .then(response => response.json())
-    .then(
-         data => {
-             if(data.success){
-                document.getElementById("table").deleteRow(rowToDelete);
-                // location.reload();
-             }
-         }
-    );
-}
-
-let idToUpdate = 0;
-
-function showEditRowInterface(id){
-    debug("id clicked: ");
-    debug(id);
-    document.querySelector('#update-name-input').value = ""; // clear this field
-    const updateSetction = document.querySelector("#update-row");  
-    updateSetction.hidden = false;
-    // we assign the id to the update button as its id attribute value
-    idToUpdate = id;
-    debug("id set!");
-    debug(idToUpdate+"");
-}
-
-
-// when the update button on the update interface is clicked
-const updateBtn = document.querySelector('#update-row-btn');
-
-updateBtn.onclick = function(){
-    debug("update clicked");
-    debug("got the id: ");
-    debug(updateBtn.value);
-    
-    const updatedNameInput = document.querySelector('#update-name-input');
-
-    fetch('http://localhost:5050/update',
-          {
-            headers: {
-                'Content-type': 'application/json'
-            },
-            method: 'PATCH',
-            body: JSON.stringify(
-                  {
-                    id: idToUpdate,
-                    name: updatedNameInput.value
-                  }
-            )
-          }
-    ) 
     .then(response => response.json())
     .then(data => {
-        if(data.success){
-            location.reload();
+        document.getElementById('message').innerText = data.success ? "Registration is successful" : "Registration has failed.";
+        
+        if (data.success) {
+            document.querySelector('#username-input').value = '';
+            document.querySelector('#password-input').value = '';
+            document.querySelector('#firstname-input').value = '';
+            document.querySelector('#lastname-input').value = '';
+            document.querySelector('#salary-input').value = '';
+            document.querySelector('#age-input').value = '';
         }
-        else 
-           debug("no update occurs");
     })
+    .catch(err => {
+        console.error(err);
+        document.getElementById('message').innerText = "An error occurred. Please try again.";
+    });
 }
 
 
 // this function is used for debugging only, and should be deleted afterwards
-function debug(data)
-{
+function debug(data) {
     fetch('http://localhost:5050/debug', {
         headers: {
             'Content-type': 'application/json'
         },
         method: 'POST',
-        body: JSON.stringify({debug: data})
-    })
-}
-
-function insertRowIntoTable(data){
-
-   debug("index.js: insertRowIntoTable called: ");
-   debug(data);
-
-   const table = document.querySelector('table tbody');
-   debug(table);
-
-   const isTableData = table.querySelector('.no-data');
-
-  // debug(isTableData);
-
-   let tableHtml = "<tr>";
-   
-   for(var key in data){ // iterating over the each property key of an object data
-      if(data.hasOwnProperty(key)){   // key is a direct property for data
-            if(key === 'dateAdded'){  // the property is 'dataAdded'
-                data[key] = new Date(data[key]).toLocaleString(); // format to javascript string
-            }
-            tableHtml += `<td>${data[key]}</td>`;
-      }
-   }
-
-   tableHtml +=`<td><button class="delete-row-btn" data-id=${data.id}>Delete</td>`;
-   tableHtml += `<td><button class="edit-row-btn" data-id=${data.id}>Edit</td>`;
-
-   tableHtml += "</tr>";
-
-    if(isTableData){
-       debug("case 1");
-       table.innerHTML = tableHtml;
-    }
-    else {
-        debug("case 2");
-        // debug(tableHtml);
-
-        const newrow = table.insertRow();
-        newrow.innerHTML = tableHtml;
-    }
-}
-
-function loadHTMLTable(data){
-    debug("index.js: loadHTMLTable called.");
-
-    const table = document.querySelector('table tbody'); 
-    
-    if(data.length === 0){
-        table.innerHTML = "<tr><td class='no-data' colspan='5'>No Data</td></tr>";
-        return;
-    }
-  
-    /*
-    In the following JavaScript code, the forEach method is used to iterate over the 
-    elements of the data array. The forEach method is a higher-order function 
-    that takes a callback function as its argument. The callback function is 
-    executed once for each element in the array.
-    
-    In this case, the callback function takes a single argument, which is an object 
-    destructuring pattern:
-
-
-    function ({id, name, date_added}) {
-        // ... code inside the callback function
-    }
-
-    This pattern is used to extract the id, name, and date_added properties from each 
-    element of the data array. The callback function is then executed for each element
-    in the array, and within the function, you can access these properties directly 
-    as variables (id, name, and date_added).
-
-    
-    In summary, the forEach method is a convenient way to iterate over each element in 
-    an array and perform some operation or execute a function for each element. 
-    The provided callback function is what gets executed for each element in the 
-    data array.
-    */
-
-    let tableHtml = "";
-    data.forEach(function ({id, name, date_added}){
-         tableHtml += "<tr>";
-         tableHtml +=`<td>${id}</td>`;
-         tableHtml +=`<td>${name}</td>`;
-         tableHtml +=`<td>${new Date(date_added).toLocaleString()}</td>`;
-         tableHtml +=`<td><button class="delete-row-btn" data-id=${id}>Delete</td>`;
-         tableHtml += `<td><button class="edit-row-btn" data-id=${id}>Edit</td>`;
-         tableHtml += "</tr>";
+        body: JSON.stringify({ debug: data })
     });
-
-    table.innerHTML = tableHtml;
 }
+
