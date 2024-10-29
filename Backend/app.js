@@ -1,5 +1,5 @@
 // Backend: application services, accessible by URIs
-
+const DbService = require('./dbService');
 
 const express = require('express');
 const cors = require('cors');
@@ -8,7 +8,6 @@ dotenv.config();
 
 const app = express();
 
-const dbService = require('./dbService');
 
 app.use(cors());
 app.use(express.json());
@@ -18,7 +17,7 @@ app.use(express.urlencoded({ extended: false }));
 app.post('/register', (request, response) => {
     const { username, password, firstname, lastname, salary, age } = request.body;
 
-    const db = dbService.getDbServiceInstance();
+    const db = DbService.getDbServiceInstance();
     const result = db.registerUser(username, password, firstname, lastname, salary, age);
 
     result
@@ -26,10 +25,23 @@ app.post('/register', (request, response) => {
         .catch(err => response.status(500).json({ success: false, error: err.message }));
 });
 
+app.post('/login', async (req, res) => {
+    const { username, password } = req.body;
+    const db = DbService.getDbServiceInstance();
+
+    const loginSuccess = await db.loginUser(username, password);
+
+    if (loginSuccess) {
+        res.json({ success: true });
+    } else {
+        res.json({ success: false, message: "Invalid username or password" });
+    }
+});
+
 // read 
 app.get('/getAll', (request, response) => {
     
-    const db = dbService.getDbServiceInstance();
+    const db = DbService.getDbServiceInstance();
 
     
     const result =  db.getAllData(); // call a DB function

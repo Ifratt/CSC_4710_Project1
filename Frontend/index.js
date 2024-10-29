@@ -126,4 +126,3 @@ function debug(data) {
         body: JSON.stringify({ debug: data })
     });
 }
-
