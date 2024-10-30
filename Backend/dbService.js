@@ -114,6 +114,76 @@ async searchByName(name) {
     }
 }
 
+ //search by userid 'john' if registered after john
+    async getJoinedAfterJohn() {
+        try {
+            const query = `
+                SELECT * FROM users WHERE signintime > (
+                    SELECT signintime FROM users WHERE username = 'john'
+                )
+            `;
+            const response = await new Promise((resolve, reject) => {
+            connection.query(query, (err, results) => {
+                    if (err) reject(new Error(err.message));
+                    else resolve(results);
+                });
+            });
+            return response;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    //serach by signintime if user never signed in
+    async getUsersNeverSignedIn() {
+        try {
+            const query = "SELECT * FROM users WHERE signintime IS NULL;";
+            const response = await new Promise((resolve, reject) => {
+            connection.query(query, (err, results) => {
+                    if (err) reject(new Error(err.message));
+                    else resolve(results);
+                });
+            });
+            return response;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    
+    //search if registered same day as 'john'
+    async getUsersRegisteredOnSameDayAsJohn() {
+        try {
+            const query = ` SELECT * FROM users WHERE registerday = (
+                    SELECT registerday FROM users WHERE username = 'john'
+                );
+            `;
+            const response = await new Promise((resolve, reject) => {
+            connection.query(query, (err, results) => {
+                    if (err) reject(new Error(err.message));
+                    else resolve(results);
+                });
+            });
+            return response;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    //searches by registerday if registered today.
+    async getUsersRegisteredToday() {
+        try {
+            const query = "SELECT * FROM users WHERE registerday = CURDATE();";
+            const response = await new Promise((resolve, reject) => {
+            connection.query(query, (err, results) => {
+                    if (err) reject(new Error(err.message));
+                    else resolve(results);
+                });
+            });
+            return response;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
 
 
 
