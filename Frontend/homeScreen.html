@@ -2,38 +2,38 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="stylesheet.css">
-  <title>DB Project 1 new</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="stylesheet.css">
+    <title>DB Project 1 new</title>
 </head>
 <body>
-  <main>
-      
-     <br><br><br>
-     <div> 
-        <input placeholder="search by firstname/lastname" id="search-input">
-        <button id="search-btn">Search</button>
-     </div>
-
-
-     <table id="table">
-         <thead>
-             <th>Username </th>
-             <th>First name</th>
-             <th>Last name</th>
-             <th>salary</th>
-             <th>Age</th>  
-         </thead>
-         <tbody></tbody>
-     </table>
-
-     <section hidden id="update-row">
-         <label>Name:</label>
-         <input type="text" id="update-name-input">
-         <button id="update-row-btn" value="">Update</button>
-    </section>
-</main>
-<script src="homeScreen.js"></script>
+    <main>
+        <h1>Search</h1>
+        <div>
+            <select id="search-option"> 
+                <option value="joinedAfterJohn">Search users who registered after john registered</option>
+                <option value="neverSignedIn">Search users who never signed in</option>
+                <option value="registeredOnSameDayAsJohn">Search users registered on same day as john</option>
+                <option value="registeredToday">Search users who registered today</option>
+            </select>
+            <input placeholder="search by firstname/lastname" id="search-input" style="margin-left: 10px;">
+            <button id="search-btn">Search</button>
+        </div>
+        <br>
+        <table id="table">
+            <thead>
+                <th>Username</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Salary</th>
+                <th>Age</th>
+                <th>Date</th>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </main>
+    <script src="index.js"></script>
 </body>
 </html>
+
