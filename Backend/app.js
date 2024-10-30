@@ -38,6 +38,8 @@ app.post('/login', async (req, res) => {
     }
 });
 
+
+
 // read 
 app.get('/getAll', (request, response) => {
     
@@ -50,6 +52,34 @@ app.get('/getAll', (request, response) => {
     .then(data => response.json({data: data}))
     .catch(err => console.log(err));
 });
+
+
+//seach by userid, last/first name
+app.get('/search/:name', (request, response) => {
+    const { name } = request.params;
+    console.log("Searching for:", name);
+
+    const db = DbService.getDbServiceInstance();
+
+    // Query the database for username, first name, or last name
+    const result = db.searchByName(name);
+
+    result
+        .then(data => {
+            console.log("Search result:", data); // Log the search results
+            response.json({ data: data });
+        })
+        .catch(err => console.log(err));
+});
+
+
+
+
+
+
+
+
+
 
 // debug function, will be deleted later
 app.post('/debug', (request, response) => {
