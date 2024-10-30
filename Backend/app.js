@@ -72,7 +72,32 @@ app.get('/search/:name', (request, response) => {
         .catch(err => console.log(err));
 });
 
+app.get('/search/joinedAfterJohn', (request, response) => {
+    const db = dbService.getDbServiceInstance();
+    db.getJoinedAfterJohn()
+        .then(data => response.json({ data }))
+        .catch(err => console.log(err));
+});
 
+app.get('/search/neverSignedIn', (request, response) => {
+    const db = dbService.getDbServiceInstance();
+    db.getUsersNeverSignedIn()
+        .then(data => response.json({ data }))
+        .catch(err => console.log(err));
+});
+
+app.get('/search/registeredOnSameDayAsJohn', (request, response) => {
+    const db = dbService.getDbServiceInstance();
+    db.getUsersRegisteredOnSameDayAsJohn()
+        .then(data => response.json({ data }))
+        .catch(err => console.log(err));
+});
+app.get('/search/registeredToday', (request, response) => {
+    const db = dbService.getDbServiceInstance();
+    db.getUsersRegisteredToday()
+        .then(data => response.json({ data }))
+        .catch(err => console.log(err));
+});
 
 
 
