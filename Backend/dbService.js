@@ -23,11 +23,34 @@ class DbService {
     static getDbServiceInstance() {
         return instance ? instance : new DbService();
     }
+    async getAllData(){
+        try{
+           // use await to call an asynchronous function
+           const response = await new Promise((resolve, reject) => 
+              {
+                  const query = "SELECT * FROM User;";
+                  connection.query(query, 
+                       (err, results) => {
+                             if(err) reject(new Error(err.message));
+                             else resolve(results);
+                       }
+                  );
+               }
+            );
+        
+            // console.log("dbServices.js: search result:");
+            // console.log(response);  // for debugging to see the result of select
+            return response;
+
+        }  catch(error){
+           console.log(error);
+        }
+   }
 
    // Registers a new user, only setting `registerday` (without `signintime`)
 async registerUser(username, password, firstname, lastname, salary, age) {
    try {
-       const query = "INSERT INTO users (username, password, firstname, lastname, salary, age, registerday) VALUES (?, ?, ?, ?, ?, ?, CURDATE());";
+       const query = "INSERT INTO Users (username, password, firstname, lastname, salary, age, registerday) VALUES (?, ?, ?, ?, ?, ?, CURDATE());";
        const response = await new Promise((resolve, reject) => {
            connection.query(query, [username, password, firstname, lastname, salary, age], (err, result) => {
                if (err) reject(new Error(err.message));
@@ -40,11 +63,12 @@ async registerUser(username, password, firstname, lastname, salary, age) {
    }
 }
 
+
 // Logs in the user, verifies credentials, and updates `signintime` if successful
 async loginUser(username, password) {
    try {
        // Check if username and password match
-       const query = "SELECT * FROM users WHERE username = ? AND password = ?";
+       const query = "SELECT * FROM Users WHERE username = ? AND password = ?";
        const result = await new Promise((resolve, reject) => {
            connection.query(query, [username, password], (err, rows) => {
                if (err) reject(new Error(err.message));
@@ -55,7 +79,7 @@ async loginUser(username, password) {
 
        if (result) {
            // If user exists, update the `signintime`
-           const updateQuery = "UPDATE users SET signintime = NOW() WHERE username = ?";
+           const updateQuery = "UPDATE Users SET signintime = NOW() WHERE username = ?";
            await new Promise((resolve, reject) => {
                connection.query(updateQuery, [username], (err) => {
                    if (err) reject(new Error(err.message));
@@ -70,6 +94,31 @@ async loginUser(username, password) {
        return false;
    }
 }
+
+//seach by userid, last/first name
+async searchByName(name) {
+    try {
+        const response = await new Promise((resolve, reject) => {
+            const query = `
+                SELECT * FROM Users 
+                WHERE username = ? OR firstname = ? OR lastname = ?;
+            `;
+            connection.query(query, [name, name, name], (err, results) => {
+                if (err) reject(new Error(err.message));
+                else resolve(results);
+            });
+        });
+        return response;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+
+
+
+
+
 }
 
 module.exports = DbService;
