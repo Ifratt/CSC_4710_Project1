@@ -55,7 +55,7 @@ app.get('/getAll', (request, response) => {
 
 
 //seach by userid, last/first name
-app.get('/search/:name', (request, response) => {
+app.get('/search/search', (request, response) => {
     const { name } = request.params;
     console.log("Searching for:", name);
 
