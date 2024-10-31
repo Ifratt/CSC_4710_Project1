@@ -1,39 +1,42 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="stylesheet.css">
-  <title>DB Project 1 new</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="stylesheet.css">
+    <title>DB Project 1</title>
 </head>
 <body>
-  <main>
-      
-     <br><br><br>
-     <div> 
-        <input placeholder="search by firstname/lastname" id="search-input">
+    <header>
+        <button onclick="location.href='login.html'">Login</button>
+        <button onclick="location.href='index.html'">Register</button>
+    </header>
+    <main>
+        <h1>Search Users</h1>
+        <select id="search-options">
+            <option value="" disabled selected>Select a search option and click search</option>
+            <option value="joinedAfterJohn">Search users who registered after john registered</option>
+            <option value="neverSignedIn">Search users who never signed in</option>
+            <option value="registeredOnSameDayAsJohn">Search users who registered on the same day as John</option>
+            <option value="registeredToday">Search users who registered today</option>
+        </select>
         <button id="search-btn">Search</button>
-     </div>
 
-
-     <table id="table">
-         <thead>
-             <th>Username </th>
-             <th>First name</th>
-             <th>Last name</th>
-             <th>salary</th>
-             <th>Age</th>  
-         </thead>
-         <tbody></tbody>
-     </table>
-
-     <section hidden id="update-row">
-         <label>Name:</label>
-         <input type="text" id="update-name-input">
-         <button id="update-row-btn" value="">Update</button>
-    </section>
-</main>
-<script src="homeScreen.js"></script>
+        <table id="table">
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Salary</th>
+                    <th>Age</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </main>
+    <script src="homeScreen.js"></script>
 </body>
 </html>
+
