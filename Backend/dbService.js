@@ -26,7 +26,7 @@ class DbService {
 
     async registerUser(username, password, firstname, lastname, salary, age) {
         try {
-            const query = "INSERT INTO users (username, password, firstname, lastname, salary, age, registerday, signintime) VALUES (?, ?, ?, ?, ?, ?, CURDATE(), NOW());";
+            const query = "INSERT INTO users (username, password, firstname, lastname, salary, age, registerday) VALUES (?, ?, ?, ?, ?, ?, CURDATE());";
             const response = await new Promise((resolve, reject) => {
                 connection.query(query, [username, password, firstname, lastname, salary, age], (err, result) => {
                     if (err) reject(new Error(err.message));
