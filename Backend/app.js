@@ -54,67 +54,34 @@ app.get('/getAll', (request, response) => {
 });
 
 
-//seach by userid, last/first name
-app.get('/search/search', (request, response) => {
-    const { name } = request.params;
-    console.log("Searching for:", name);
-
-    const db = DbService.getDbServiceInstance();
-
-    // Query the database for username, first name, or last name
-    const result = db.searchByName(name);
-
-    result
-        .then(data => {
-            console.log("Search result:", data); // Log the search results
-            response.json({ data: data });
-        })
-        .catch(err => console.log(err));
-});
-
 app.get('/search/joinedAfterJohn', (request, response) => {
-    const db = dbService.getDbServiceInstance();
+    const db = DbService.getDbServiceInstance();
     db.getJoinedAfterJohn()
         .then(data => response.json({ data }))
         .catch(err => console.log(err));
 });
 
 app.get('/search/neverSignedIn', (request, response) => {
-    const db = dbService.getDbServiceInstance();
+    const db = DbService.getDbServiceInstance();
     db.getUsersNeverSignedIn()
         .then(data => response.json({ data }))
         .catch(err => console.log(err));
 });
 
 app.get('/search/registeredOnSameDayAsJohn', (request, response) => {
-    const db = dbService.getDbServiceInstance();
+    const db = DbService.getDbServiceInstance();
     db.getUsersRegisteredOnSameDayAsJohn()
         .then(data => response.json({ data }))
         .catch(err => console.log(err));
 });
 app.get('/search/registeredToday', (request, response) => {
-    const db = dbService.getDbServiceInstance();
+    const db = DbService.getDbServiceInstance();
     db.getUsersRegisteredToday()
         .then(data => response.json({ data }))
         .catch(err => console.log(err));
 });
 
 
-
-
-
-
-
-
-// debug function, will be deleted later
-app.post('/debug', (request, response) => {
-    // console.log(request.body); 
-
-    const {debug} = request.body;
-    console.log(debug);
-
-    return response.json({success: true});
-});   
 
 // set up the web server listener
 // if we use .env to configure
