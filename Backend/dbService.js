@@ -20,6 +20,7 @@ connection.connect((err) => {
 });
 
 class DbService {
+    
     static getDbServiceInstance() {
         return instance ? instance : new DbService();
     }
@@ -45,7 +46,7 @@ async registerUser(username, password, firstname, lastname, salary, age) {
            // use await to call an asynchronous function
            const response = await new Promise((resolve, reject) => 
               {
-                  const query = "SELECT * FROM User;";
+                  const query = "SELECT * FROM Users;";
                   connection.query(query, 
                        (err, results) => {
                              if(err) reject(new Error(err.message));
@@ -97,6 +98,39 @@ async loginUser(username, password) {
        return false;
    }
 }
+
+
+
+async getUsersBySalary(min, max) {
+    const query = 'SELECT * FROM Users WHERE salary BETWEEN ? AND ?';
+    return new Promise((resolve, reject) => {
+        connection.query(query, [min, max], (error, results) => {
+            if (error) {
+                return reject(error);
+            }
+            resolve(results);
+        });
+    });
+}
+
+async getUsersByAge(min, max) {
+    const query = 'SELECT * FROM Users WHERE age BETWEEN ? AND ?';
+    return new Promise((resolve, reject) => {
+        connection.query(query, [min, max], (error, results) => {
+            if (error) {
+                return reject(error);
+            }
+            resolve(results);
+        });
+    });
+}
+
+
+
+
+
+
+
 //hiba
 async getJoinedAfterJohn() {
     try {

@@ -1,6 +1,7 @@
 // Backend: application services, accessible by URIs
 const DbService = require('./dbService');
 
+
 const express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv');
@@ -56,6 +57,50 @@ app.get('/getAll', (request, response) => {
 
 
 
+app.get('/search/salary', async (req, res) => {
+    const min =  Number(req.query.min);
+    const max =  Number(req.query.max);
+
+    // Ensure that min and max are numbers
+    if (!min || !max || isNaN(min) || isNaN(max)) {
+        return res.status(400).send({ error: "Invalid parameters." });
+    }
+
+    const db = DbService.getDbServiceInstance(); 
+
+    try {
+        const results = await db.getUsersBySalary(min, max);
+        res.send({ data: results });
+    } catch (error) {
+        return res.status(500).send({ error: error.message });
+    }
+});
+
+app.get('/search/age', async (req, res) => {
+    const min = Number(req.query.min);
+    const max =  Number(req.query.max);
+
+    // Ensure that min and max are numbers
+    if (!min || !max || isNaN(min) || isNaN(max)) {
+        return res.status(400).send({ error: "Invalid parameters." });
+    }
+
+    const db = DbService.getDbServiceInstance(); 
+
+    try {
+        const results = await db.getUsersByAge(min, max);
+        res.send({ data: results });
+    } catch (error) {
+        return res.status(500).send({ error: error.message });
+    }
+});
+
+
+
+
+
+
+
 
 //hiba 
 app.get('/search/joinedAfterJohn', (request, response) => {
@@ -84,6 +129,12 @@ app.get('/search/registeredToday', (request, response) => {
         .then(data => response.json({ data }))
         .catch(err => console.log(err));
 });
+
+
+
+
+
+
 
 
 

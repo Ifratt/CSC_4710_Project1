@@ -62,6 +62,51 @@ searchBtn2.onclick = function () {
 
 
 
+// Event listener for searching by salary range
+ 
+document.querySelector('#search-salary-btn').onclick = function() {
+    const minSalary = document.querySelector('#min-salary').value.trim();
+    const maxSalary = document.querySelector('#max-salary').value.trim();
+
+    fetch(`http://localhost:5050/search/salary?min=${minSalary}&max=${maxSalary}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            loadHTMLTable(data.data);
+        })
+        .catch(error => console.error('Error fetching salary data:', error));
+};
+
+document.querySelector('#search-age-btn').onclick = function() {
+    const minAge = document.querySelector('#min-age').value.trim();
+    const maxAge = document.querySelector('#max-age').value.trim();
+
+    fetch(`http://localhost:5050/search/age?min=${minAge}&max=${maxAge}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            loadHTMLTable(data.data);
+        })
+        .catch(error => console.error('Error fetching age data:', error));
+};
+
+
+
+
+
+
+
+
+
+
 
 
 // Fetch functions remain the same
