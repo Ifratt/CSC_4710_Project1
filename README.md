@@ -20,6 +20,7 @@ These are the funtions that are be implemented to the interface:
 2. Make sure the respitory is in ```C:\xampp\htdocs>``` (or similar directory where you installed XAMPP). 
 3. At ```C:\xampp\htdocs```, run ```git clone https://github.com/Ifratt/CSC_4710_Project1.git``` to copy the whole project code to the current directory.
 4. Now you can access the Frontend via [http://localhost/database_javascript/CSC_4710_Project1/Frontend/homeScreen.html](http://localhost/database_javascript/CSC_4710_Project1/Frontend/homeScreen.html).
+5. Configure the MySql database according to C:\xampp\htdocs\database_javascript\CSC_4710_Project1\Backend\dotenv, that is, to create a database called web_app and a user john with password 1234 via the Admin interface http://localhost/phpmyadmin/. 
 6. Start the Apache and MySQL through XAMPP Control Panel.
 8. Go the Backend directory ```C:\xampp\htdocs\database_javascript\CSC_4710_Project1\Backend```.
 9. Type in npm install express mysql cors nodemon dotenv
