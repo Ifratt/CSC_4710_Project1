@@ -54,6 +54,41 @@ app.get('/getAll', (request, response) => {
 });
 
 
+
+
+
+//hiba 
+app.get('/search/joinedAfterJohn', (request, response) => {
+    const db = DbService.getDbServiceInstance();
+    db.getJoinedAfterJohn()
+        .then(data => response.json({ data }))
+        .catch(err => console.log(err));
+});
+
+app.get('/search/neverSignedIn', (request, response) => {
+    const db = DbService.getDbServiceInstance();
+    db.getUsersNeverSignedIn()
+        .then(data => response.json({ data }))
+        .catch(err => console.log(err));
+});
+
+app.get('/search/registeredOnSameDayAsJohn', (request, response) => {
+    const db = DbService.getDbServiceInstance();
+    db.getUsersRegisteredOnSameDayAsJohn()
+        .then(data => response.json({ data }))
+        .catch(err => console.log(err));
+});
+app.get('/search/registeredToday', (request, response) => {
+    const db = DbService.getDbServiceInstance();
+    db.getUsersRegisteredToday()
+        .then(data => response.json({ data }))
+        .catch(err => console.log(err));
+});
+
+
+
+
+
 //seach by userid, last/first name
 app.get('/search/:name', (request, response) => {
     const { name } = request.params;
@@ -71,6 +106,9 @@ app.get('/search/:name', (request, response) => {
         })
         .catch(err => console.log(err));
 });
+
+
+
 
 
 

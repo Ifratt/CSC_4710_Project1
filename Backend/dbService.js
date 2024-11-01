@@ -23,6 +23,23 @@ class DbService {
     static getDbServiceInstance() {
         return instance ? instance : new DbService();
     }
+       // Registers a new user, only setting `registerday` (without `signintime`)
+async registerUser(username, password, firstname, lastname, salary, age) {
+    try {
+        const query = "INSERT INTO Users (username, password, firstname, lastname, salary, age, registerday) VALUES (?, ?, ?, ?, ?, ?, CURDATE());";
+        const response = await new Promise((resolve, reject) => {
+            connection.query(query, [username, password, firstname, lastname, salary, age], (err, result) => {
+                if (err) reject(new Error(err.message));
+                else resolve(result.insertId);
+            });
+        });
+        return { id: response, username, firstname, lastname, salary, age };
+    } catch (error) {
+        console.log(error);
+    }
+ }
+
+
     async getAllData(){
         try{
            // use await to call an asynchronous function
@@ -47,21 +64,7 @@ class DbService {
         }
    }
 
-   // Registers a new user, only setting `registerday` (without `signintime`)
-async registerUser(username, password, firstname, lastname, salary, age) {
-   try {
-       const query = "INSERT INTO Users (username, password, firstname, lastname, salary, age, registerday) VALUES (?, ?, ?, ?, ?, ?, CURDATE());";
-       const response = await new Promise((resolve, reject) => {
-           connection.query(query, [username, password, firstname, lastname, salary, age], (err, result) => {
-               if (err) reject(new Error(err.message));
-               else resolve(result.insertId);
-           });
-       });
-       return { id: response, username, firstname, lastname, salary, age };
-   } catch (error) {
-       console.log(error);
-   }
-}
+
 
 
 // Logs in the user, verifies credentials, and updates `signintime` if successful
@@ -94,7 +97,74 @@ async loginUser(username, password) {
        return false;
    }
 }
+//hiba
+async getJoinedAfterJohn() {
+    try {
+        const query = `
+            SELECT * FROM users WHERE signintime > (
+                SELECT signintime FROM users WHERE username = 'john'
+            );
+        `;
+        const response = await new Promise((resolve, reject) => {
+            connection.query(query, (err, results) => {
+                if (err) reject(new Error(err.message));
+                else resolve(results);
+            });
+        });
+        return response;
+    } catch (error) {
+        console.log(error);
+    }
+}
 
+async getUsersNeverSignedIn() {
+    try {
+        const query = "SELECT * FROM users WHERE signintime IS NULL;";
+        const response = await new Promise((resolve, reject) => {
+            connection.query(query, (err, results) => {
+                if (err) reject(new Error(err.message));
+                else resolve(results);
+            });
+        });
+        return response;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+async getUsersRegisteredOnSameDayAsJohn() {
+    try {
+        const query = `
+            SELECT * FROM users WHERE registerday = (
+                SELECT registerday FROM users WHERE username = 'john'
+            );
+        `;
+        const response = await new Promise((resolve, reject) => {
+            connection.query(query, (err, results) => {
+                if (err) reject(new Error(err.message));
+                else resolve(results);
+            });
+        });
+        return response;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+async getUsersRegisteredToday() {
+    try {
+        const query = "SELECT * FROM users WHERE registerday = CURDATE();";
+        const response = await new Promise((resolve, reject) => {
+            connection.query(query, (err, results) => {
+                if (err) reject(new Error(err.message));
+                else resolve(results);
+            });
+        });
+        return response;
+    } catch (error) {
+        console.log(error);
+    }
+}
 //seach by userid, last/first name
 async searchByName(name) {
     try {
@@ -117,8 +187,7 @@ async searchByName(name) {
 
 
 
-
-
 }
+
 
 module.exports = DbService;
