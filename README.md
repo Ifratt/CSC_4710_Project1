@@ -21,7 +21,7 @@ These are the funtions that are be implemented to the interface:
 3. At ```C:\xampp\htdocs```, run ```git clone https://github.com/Ifratt/CSC_4710_Project1.git``` to copy the whole project code to the current directory.
 4. Now you can access the Frontend via [http://localhost/database_javascript/CSC_4710_Project1/Frontend/homeScreen.html](http://localhost/database_javascript/CSC_4710_Project1/Frontend/homeScreen.html).
 7. Go the Backend directory ```C:\xampp\htdocs\database_javascript\CSC_4710_Project1\Backend```.
-9. Type in  ``` npm install express mysql cors nodemon dotenv
+9. Type in  npm install express mysql cors nodemon dotenv
 
 ```
 11. Start the Backend by running ```npm start```.
