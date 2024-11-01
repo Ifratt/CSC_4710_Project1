@@ -20,13 +20,11 @@ These are the funtions that are be implemented to the interface:
 2. Make sure the the respitory is in ```C:\xampp\htdocs>``` (or similar directory where you installed XAMPP). 
 3. At ```C:\xampp\htdocs```, run ```git clone https://github.com/Ifratt/CSC_4710_Project1.git``` to copy the whole project code to the current directory.
 4. Now you can access the Frontend via [http://localhost/database_javascript/CSC_4710_Project1/Frontend/homeScreen.html](http://localhost/database_javascript/CSC_4710_Project1/Frontend/homeScreen.html).
-7. Go the Backend directory ```C:\xampp\htdocs\database_javascript\CSC_4710_Project1\Backend```.
-9. Type in  npm install express mysql cors nodemon dotenv
-
-```
-11. Start the Backend by running ```npm start```.
-12. Feel free to access some of the Backend endpoints directly such as [http://localhost:5050/getAll](http://localhost:5050/getAll) or  [http://localhost:5050/search/joinedAfterJohnYou](http://localhost:5050/search/joinedAfterJohnYou) will only receive JSON data without nice rendering. 
-13. Now you can interact with the Frontend [http://localhost/database_javascript/project1/CSC_4710_Project1/homeScreen.html](http://localhost/database_javascript/CSC_4710_Project1/Frontend/homeScreen.html).
+5. Go the Backend directory ```C:\xampp\htdocs\database_javascript\CSC_4710_Project1\Backend```.
+6. Type in  npm install express mysql cors nodemon dotenv
+7. Start the Backend by running ```npm start```.
+8. Feel free to access some of the Backend endpoints directly such as [http://localhost:5050/getAll](http://localhost:5050/getAll) or  [http://localhost:5050/search/joinedAfterJohnYou](http://localhost:5050/search/joinedAfterJohnYou) will only receive JSON data without nice rendering. 
+9. Now you can interact with the Frontend [http://localhost/database_javascript/project1/CSC_4710_Project1/homeScreen.html](http://localhost/database_javascript/CSC_4710_Project1/Frontend/homeScreen.html).
 
 
    
